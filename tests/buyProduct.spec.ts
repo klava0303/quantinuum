@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { PageManager } from '../pages/pageManager';
 import { loginFunc } from './utils';
+import { bugReport } from './utils'; 
 
 test.beforeEach(async ({ page }) => {
     await loginFunc(page);
@@ -10,72 +11,100 @@ test.beforeEach(async ({ page }) => {
   });
 
 test ('User can proceed to checkout', async ({ page}) => {
-    const pm = new PageManager(page); 
+    try {
+        const pm = new PageManager(page); 
 
-    //check checkout button is available 
-    await expect(pm.onCartPage().checkoutButton).toBeVisible(); 
+        //check checkout button is available 
+        await expect(pm.onCartPage().checkoutButton).toBeVisible(); 
 
-    await pm.onCartPage().cartPage(); 
+        await pm.onCartPage().cartPage(); 
 
-    //check checkout information page is loaded next 
-    await expect(page).toHaveURL('/checkout-step-one.html')
+        //check checkout information page is loaded next 
+        await expect(page).toHaveURL('/checkout-step-one.html')
+    }
+    catch (error) {
+        //create bug report in XLS
+        bugReport('User can proceed to checkout', error.message);
+        throw error; 
+    }
 }
 )
 
 test ('User can proceed to finalise order', async ({ page}) => {
-    const pm = new PageManager(page); 
-    await fillCheckoutInfoPage(page); 
+    try {
+        const pm = new PageManager(page); 
+        await fillCheckoutInfoPage(page); 
 
-    //check page title 
-    await expect(pm.onCheckoutInfoPage().title).toHaveText('Checkout: Your Information');
+        //check page title 
+        await expect(pm.onCheckoutInfoPage().title).toHaveText('Checkout: Your Information');
 
-    //check Continue button is available 
-    await expect(pm.onCheckoutInfoPage().continueButton).toBeVisible(); 
+        //check Continue button is available 
+        await expect(pm.onCheckoutInfoPage().continueButton).toBeVisible(); 
+    }
+    catch (error) {
+        //create bug report in XLS
+        bugReport('User can proceed to finalise order', error.message);
+        throw error; 
+    }
 }
 )
 
 test ('Information on final page is correct', async ({ page}) => {
-    const pm = new PageManager(page); 
-    await fillCheckoutInfoPage(page); 
-    await pm.onCheckoutInfoPage().goToNextPage(); 
+    try {
+        const pm = new PageManager(page); 
+        await fillCheckoutInfoPage(page); 
+        await pm.onCheckoutInfoPage().goToNextPage(); 
 
-    //check page title 
-    await expect(pm.onPaymentPage().title).toHaveText('Checkout: Overview'); 
+        //check page title 
+        await expect(pm.onPaymentPage().title).toHaveText('Checkout: Overview'); 
 
-    //check payment information 
-    await expect(pm.onPaymentPage().paymentInfo).not.toBeEmpty(); 
+        //check payment information 
+        await expect(pm.onPaymentPage().paymentInfo).not.toBeEmpty(); 
 
-    //check shipping information 
-    await expect(pm.onPaymentPage().shippingInfo).not.toBeEmpty(); 
+        //check shipping information 
+        await expect(pm.onPaymentPage().shippingInfo).not.toBeEmpty(); 
 
-    //check item total is equal to selected product price 
-    const productPrice = await pm.onCartPage().productPrice.innerText(); 
-    const itemTotal = await pm.onPaymentPage().productPrice.innerText(); 
-    await expect(productPrice).toEqual(itemTotal); 
+        //check item total is equal to selected product price 
+        const productPrice = await pm.onCartPage().productPrice.innerText(); 
+        const itemTotal = await pm.onPaymentPage().productPrice.innerText(); 
+        await expect(productPrice).toEqual(itemTotal); 
 
-    //check Finish buton is available 
-    await expect(pm.onPaymentPage().finishButton).toBeVisible(); 
+        //check Finish buton is available 
+        await expect(pm.onPaymentPage().finishButton).toBeVisible(); 
+    }
+    catch (error) {
+        //create bug report in XLS
+        bugReport('Information on final page is correct', error.message);
+        throw error; 
+    }
 }
 )
 
 test ('Order is placed successfully', async ({ page}) => {
-    const pm = new PageManager(page); 
-    await fillCheckoutInfoPage(page); 
-    await pm.onPaymentPage().goTo(); 
-    await pm.onPaymentPage().paymentPage(); 
+    try {
+        const pm = new PageManager(page); 
+        await fillCheckoutInfoPage(page); 
+        await pm.onPaymentPage().goTo(); 
+        await pm.onPaymentPage().paymentPage(); 
 
-    //check page title 
-    await expect(pm.onOrderFinalisedPage().title).toHaveText('Checkout: Complete!'); 
+        //check page title 
+        await expect(pm.onOrderFinalisedPage().title).toHaveText('Checkout: Complete!'); 
 
-    //check confirmation image to be visible 
-    await expect(pm.onOrderFinalisedPage().confirmation).toBeVisible(); 
+        //check confirmation image to be visible 
+        await expect(pm.onOrderFinalisedPage().confirmation).toBeVisible(); 
 
-    //check confirmation message 
-    await expect(pm.onOrderFinalisedPage().confirmationMessage).toHaveText('Thank you for your order!'); 
+        //check confirmation message 
+        await expect(pm.onOrderFinalisedPage().confirmationMessage).toHaveText('Than you for your order!'); 
 
-    //go back to Home page 
-    await pm.onOrderFinalisedPage().goToHome(); 
-    await expect(page).toHaveURL('/inventory.html'); 
+        //go back to Home page 
+        await pm.onOrderFinalisedPage().goToHome(); 
+        await expect(page).toHaveURL('/inventory.html'); 
+    }
+    catch (error) {
+        //create bug report in XLS
+        bugReport('Order is placed successfully', error.message);
+        throw error; 
+    }
 }
 )
 

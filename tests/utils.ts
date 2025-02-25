@@ -11,27 +11,18 @@ export async function loginFunc(page) {
 }
 
 export async function bugReport(testCase, errorMessage) {
-    const filePath = 'bug_report.xlsx';
+    const filePath = `bug_report_${testCase}.xlsx`;
     let workbook;
     let sheet;
     let newRow = [[testCase, errorMessage]];
 
-    //check if xls file already exists
-    if (fs.existsSync(filePath)) {
-        workbook = XLSX.readFile(filePath);
-        sheet = workbook.Sheets['Bugs'];
+    //workbook = XLSX.readFile(filePath);
+    //sheet = workbook.Sheets['Bugs'];
 
-        if (!sheet) {
-            //if sheet doesn't exist, create it
-            sheet = XLSX.utils.aoa_to_sheet([["Test Case", "Error Message"]]);
-            XLSX.utils.book_append_sheet(workbook, sheet, 'Bugs');
-        }
-    } else {
-        //create new workbook and add headers
-        workbook = XLSX.utils.book_new();
-        sheet = XLSX.utils.aoa_to_sheet([["Test Case", "Error Message"]]);
-        XLSX.utils.book_append_sheet(workbook, sheet, 'Bugs');
-    }
+    //create new workbook and add headers
+    workbook = XLSX.utils.book_new();
+    sheet = XLSX.utils.aoa_to_sheet([["Test Case", "Error Message"]]);
+    XLSX.utils.book_append_sheet(workbook, sheet, 'Bugs');
 
     //get existing data
     const range = XLSX.utils.decode_range(sheet['!ref'] || 'A1'); //get current sheet range

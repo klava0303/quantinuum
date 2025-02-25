@@ -3,7 +3,11 @@ This test suite focuses on 3 critical paths of the SauceDemo web application:
 2. Adding a product to the shopping cart 
 3. Placing an order 
 
-In order to run the tests, you need to follow the next steps: 
+When a test fails, a bug report is created in xls format. 
+The test environment can be configured by changing the base URL in the .env file. 
+The test suite is ran automatically (via Github Actions), every day at noon from Monday to Friday. 
+
+In order to run the tests locally, you need to follow the next steps: 
 
 ## Clone The Repo
 
