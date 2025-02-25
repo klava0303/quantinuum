@@ -94,7 +94,7 @@ test ('Order is placed successfully', async ({ page}) => {
         await expect(pm.onOrderFinalisedPage().confirmation).toBeVisible(); 
 
         //check confirmation message 
-        await expect(pm.onOrderFinalisedPage().confirmationMessage).toHaveText('Than you for your order!'); 
+        await expect(pm.onOrderFinalisedPage().confirmationMessage).toHaveText('Thank you for your order!'); 
 
         //go back to Home page 
         await pm.onOrderFinalisedPage().goToHome(); 
