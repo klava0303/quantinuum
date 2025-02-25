@@ -28,7 +28,7 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
-    - name: upload bug reports (to be downloaded from Github Actions UI)
+    - name: upload bug reports
       if: always()
       uses: actions/upload-artifact@v4
       with:
