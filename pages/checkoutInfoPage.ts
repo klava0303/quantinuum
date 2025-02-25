@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from '@playwright/test';
-//import { PageManager } from './pageManager';
 
 export class CheckoutInfoPage {
     readonly page: Page;
