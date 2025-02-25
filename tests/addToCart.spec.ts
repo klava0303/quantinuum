@@ -29,12 +29,6 @@ test ('Add first product on the page to cart', async ({ page}) => {
         await expect(pm.onInventoryPage().removeButton).toHaveText('Remove'); 
     }
     catch (error) {
-        //console.log('Add first product on the page to cart: failed!', error.message);
-
-        //take screenshot 
-        //const screenshotPath = `test-failure-${Date.now()}.png`;
-        //await page.screenshot({ path: screenshotPath });
-
         //create bug report in XLS
         bugReport('Add first product on the page to cart', error.message);
         throw error; 
@@ -64,12 +58,6 @@ test ('Information on Cart page is correct', async ({ page}) => {
         await expect(pm.onCartPage().removeButton).toBeVisible(); 
     }
     catch (error) {
-        //console.log("Information on Cart page is correct: failed!", error.message);
-
-        //take screenshot
-        //const screenshotPath = `test-failure-${Date.now()}.png`;
-        //await page.screenshot({ path: screenshotPath });
-    
         //create bug report in XLS
         bugReport('Information on Cart page is correct', error.message);
         throw error; 

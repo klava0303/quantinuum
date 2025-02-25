@@ -1,5 +1,5 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { PageManager } from './pageManager';
+//import { PageManager } from './pageManager';
 
 export class InventoryPage {
     readonly page: Page;

@@ -14,23 +14,16 @@ export async function bugReport(testCase, errorMessage) {
     const filePath = `bug_report_${testCase}.xlsx`;
     let workbook;
     let sheet;
-    let newRow = [[testCase, errorMessage]];
+    let row = [[testCase, errorMessage]];
 
-    //workbook = XLSX.readFile(filePath);
-    //sheet = workbook.Sheets['Bugs'];
-
-    //create new workbook and add headers
+    //create new workbook and add cell titles
     workbook = XLSX.utils.book_new();
     sheet = XLSX.utils.aoa_to_sheet([["Test Case", "Error Message"]]);
-    XLSX.utils.book_append_sheet(workbook, sheet, 'Bugs');
+    XLSX.utils.book_append_sheet(workbook, sheet);
 
-    //get existing data
-    const range = XLSX.utils.decode_range(sheet['!ref'] || 'A1'); //get current sheet range
-    const nextRow = range.e.r + 1; //find the next blank row
+    //add data
+    XLSX.utils.sheet_add_aoa(sheet, row);
 
-    //append new data
-    XLSX.utils.sheet_add_aoa(sheet, newRow, { origin: `A${nextRow + 1}` });
-
-    //write back to the XLS file
+    //write XLS file
     XLSX.writeFile(workbook, filePath);
 }
